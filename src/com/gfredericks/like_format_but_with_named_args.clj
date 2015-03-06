@@ -41,8 +41,12 @@
   {:inline (fn [format-string arg-map]
              (if (string? format-string)
                (let [[clojure-format-string names] (parse-named-format-string format-string)]
-                 `(let [arg-map# ~arg-map]
-                    (apply format ~clojure-format-string (map #(get arg-map# %) ~names))))
+                 (if (empty? names)
+                   `(let [arg-map# ~arg-map]
+                      (apply format ~clojure-format-string (map #(get arg-map# %) ~names)))
+                   ;; passing it through format just in case we need to do a
+                   ;; "%%" -> "%" conversion.
+                   (format clojure-format-string)))
                `(let [[clojure-format-string# names#] (parse-named-format-string ~format-string)
                       arg-map# ~arg-map]
                   (apply format clojure-format-string# (map #(get arg-map# %) names#)))))
