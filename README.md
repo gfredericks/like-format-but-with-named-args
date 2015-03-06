@@ -16,8 +16,11 @@ Leiningen dependency coordinates:
 ``` clojure
 (require '[com.gfredericks.like-format-but-with-named-args :refer [named-format]])
 
-(named-format "Hello my name is %name~s." {:name "Joe Biden"})
-;; => "Hello my name is Joe Biden."
+(named-format "Hello my name is %name~s and I am %height~.3f feet tall."
+              {:name   "Joe Biden"
+               :height (* 2 Math/PI)})
+;; => "Hello my name is Joe Biden and I am 6.283 feet tall."
+
 ```
 
 ## License
