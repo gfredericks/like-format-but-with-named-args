@@ -8,7 +8,7 @@ but uses named args instead of positional args.
 Leiningen dependency coordinates:
 
 ```
-[com.gfredericks/like-format-but-with-named-args "0.1.1"]
+[com.gfredericks/like-format-but-with-named-args "0.1.2"]
 ```
 
 ## Usage
