@@ -16,8 +16,7 @@ Leiningen dependency coordinates:
 ``` clojure
 (require '[com.gfredericks.like-format-but-with-named-args :refer [named-format]])
 
-((parse-named-format-string "Hello my name is %name~s.")
- {:name "Joe Biden"})
+(named-format "Hello my name is %name~s." {:name "Joe Biden"})
 ;; => "Hello my name is Joe Biden."
 ```
 
