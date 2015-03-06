@@ -16,6 +16,7 @@
   [format-str]
   (loop [out-str ""
          keys []
+         ^String
          s format-str]
     (if (empty? s)
       (if (empty? keys)
