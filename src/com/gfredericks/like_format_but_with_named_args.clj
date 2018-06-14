@@ -22,6 +22,13 @@
                      remaining)
               (throw (ex-info "Bad format string!" {:arg format-str})))))))))
 
+(defn throw-on-bad-format
+  [format-string arg-map e]
+
+  (throw (ex-info "Unable to use named-format!" {:format-string format-string
+                                                 :arg-map       arg-map
+                                                 :cause         (.getMessage e)})))
+
 (defn named-format
   "Like clojure.core/format but uses named args. `format-string` is
   similar to that accepted by clojure.core/format, but with names on
@@ -46,11 +53,17 @@
                    ;; "%%" -> "%" conversion.
                    (format clojure-format-string)
                    `(let [arg-map# ~arg-map]
-                      (apply format ~clojure-format-string (map #(get arg-map# %) ~names)))))
+                      (try (apply format ~clojure-format-string (map #(get arg-map# %) ~names))
+                           (catch java.util.IllegalFormatConversionException e#
+                             (throw-on-bad-format ~clojure-format-string arg-map# e#))))))
                `(let [[clojure-format-string# names#] (parse-named-format-string ~format-string)
                       arg-map# ~arg-map]
-                  (apply format clojure-format-string# (map #(get arg-map# %) names#)))))
+                  (try (apply format clojure-format-string# (map #(get arg-map# %) names#))
+                       (catch java.util.IllegalFormatConversionException e#
+                         (throw-on-bad-format clojure-format-string# arg-map# e#))))))
    :inline-arities #{2}}
   [format-string arg-map]
   (let [[clojure-format-string names] (parse-named-format-string format-string)]
-    (apply format clojure-format-string (map #(get arg-map %) names))))
+    (try (apply format clojure-format-string (map #(get arg-map %) names))
+         (catch java.util.IllegalFormatConversionException e
+           (throw-on-bad-format clojure-format-string arg-map e)))))
