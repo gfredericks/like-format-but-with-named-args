@@ -52,10 +52,11 @@
                    ;; passing it through format just in case we need to do a
                    ;; "%%" -> "%" conversion.
                    (format clojure-format-string)
-                   `(let [arg-map# ~arg-map]
-                      (try (apply format ~clojure-format-string (map #(get arg-map# %) ~names))
+                   `(let [arg-map# ~arg-map
+                          clojure-format-string# ~clojure-format-string]
+                      (try (apply format clojure-format-string# (map #(get arg-map# %) ~names))
                            (catch java.util.IllegalFormatConversionException e#
-                             (throw-on-bad-format ~clojure-format-string arg-map# e#))))))
+                             (throw-on-bad-format clojure-format-string# arg-map# e#))))))
                `(let [[clojure-format-string# names#] (parse-named-format-string ~format-string)
                       arg-map# ~arg-map]
                   (try (apply format clojure-format-string# (map #(get arg-map# %) names#))
