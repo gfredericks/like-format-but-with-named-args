@@ -25,9 +25,9 @@
 (defn throw-on-bad-format
   [format-string arg-map e]
 
-  (throw (ex-info "Unable to use named-format!" {:format-string format-string
-                                                 :arg-map       arg-map
-                                                 :cause         (.getMessage e)})))
+  (throw (ex-info "Bad call to named-format" {:format-string format-string
+                                              :arg-map    arg-map}
+                  (.getMessage e))))
 
 (defn named-format
   "Like clojure.core/format but uses named args. `format-string` is
