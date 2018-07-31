@@ -27,7 +27,7 @@
 
   (throw (ex-info "Bad call to named-format" {:format-string format-string
                                               :arg-map    arg-map}
-                  (.getMessage e))))
+                  e)))
 
 (defn named-format
   "Like clojure.core/format but uses named args. `format-string` is
