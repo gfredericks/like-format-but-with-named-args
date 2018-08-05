@@ -1,4 +1,4 @@
-(defproject com.gfredericks/like-format-but-with-named-args "0.1.4"
+(defproject com.gfredericks/like-format-but-with-named-args "0.1.5-SNAPSHOT"
   :description "A function like clojure.core/format but with named args."
   :url "https://github.com/gfredericks/like-format-but-with-named-args"
   :license {:name "Eclipse Public License"
